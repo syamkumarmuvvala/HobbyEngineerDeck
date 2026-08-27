@@ -53,20 +53,16 @@ export async function SiteHeader() {
           </nav>
           {authUser ? (
             <>
-              {mentor ? (
-                <>
-                  <PortalSwitcher activePortal={activePortal} />
-                  {activePortal === "mentor" ? (
-                    <Link
-                      href="/dashboard/blog"
-                      className={cn(buttonVariants({ variant: "ghost" }), "hidden md:inline-flex")}
-                    >
-                      Dashboard
-                    </Link>
-                  ) : null}
-                </>
+              {mentor && activePortal === "mentor" ? (
+                <Link
+                  href="/dashboard/blog"
+                  className={cn(buttonVariants({ variant: "ghost" }), "hidden md:inline-flex")}
+                >
+                  Dashboard
+                </Link>
               ) : null}
               <SignOutButton />
+              {mentor ? <PortalSwitcher activePortal={activePortal} /> : null}
             </>
           ) : (
             <>
