@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  VISITOR
+  MEMBER
+  MENTOR
+  ADMIN
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model User {
+  id        String     @id @db.Uuid
+  email     String     @unique
+  name      String?
+  avatarUrl String?
+  role      Role       @default(MEMBER)
+  createdAt DateTime   @default(now())
+  blogPosts BlogPost[]
+}
+
+model BlogPost {
+  id            String        @id @default(uuid()) @db.Uuid
+  slug          String        @unique
+  title         String
+  excerpt       String?       @db.Text
+  contentJson   Json
+  coverImageUrl String?
+  authorId      String        @db.Uuid
+  author        User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  status        PostStatus    @default(DRAFT)
+  publishedAt   DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  tags          BlogPostTag[]
+}
+
+model Tag {
+  id    String        @id @default(uuid()) @db.Uuid
+  name  String
+  slug  String        @unique
+  posts BlogPostTag[]
+}
+
+model BlogPostTag {
+  postId String   @db.Uuid
+  tagId  String   @db.Uuid
+  post   BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+}
