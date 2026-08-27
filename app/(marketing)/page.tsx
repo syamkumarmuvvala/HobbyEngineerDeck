@@ -75,7 +75,7 @@ const faqs = [
 
 function WorkshopScene() {
   return (
-    <div className="relative mx-auto aspect-[4/5] w-full max-w-md lg:max-w-none">
+    <div className="relative mx-auto aspect-[4/5] w-full max-w-[280px] lg:ml-auto lg:mr-0 lg:max-w-[320px]">
       <div className="from-primary/40 via-primary/15 absolute inset-8 rounded-[2rem] bg-gradient-to-br to-transparent blur-2xl" />
       <div className="bg-foreground relative h-full overflow-hidden rounded-[1.75rem] shadow-xl">
         <div
@@ -120,13 +120,13 @@ function WorkshopScene() {
 export default function MarketingPage() {
   return (
     <main>
-      <section className="mx-auto grid w-full max-w-6xl items-center gap-16 px-4 py-16 pb-24 sm:px-6 lg:grid-cols-2 lg:py-24 lg:pb-28">
+      <section className="mx-auto grid w-full max-w-6xl items-start gap-10 px-4 pt-8 pb-16 sm:px-6 lg:grid-cols-2 lg:gap-12 lg:pt-10 lg:pb-20">
         <div>
           <p className="text-foreground/70 mb-3 text-sm font-medium">
-            For hobbyist engineers and makers
+            For Every Engineer Out there
           </p>
           <h1 className="font-heading text-4xl leading-tight tracking-tight text-pretty sm:text-5xl lg:text-6xl">
-            Publish the course you wish you had.
+            Learn, Engineer, and Share.
           </h1>
           <p className="text-muted-foreground mt-5 max-w-lg text-lg leading-relaxed">
             HobbyEngineerDeck is where practitioners write build logs, teach from the bench, and
