@@ -29,7 +29,7 @@ export async function SiteHeader() {
     <header className="border-border/80 bg-background/90 sticky top-0 z-40 border-b backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
         <Link href="/" className="font-heading shrink-0 text-lg tracking-tight">
-          HobbyEngineerDeck
+          Hobby Engineer Deck
         </Link>
 
         <nav className="text-muted-foreground hidden items-center gap-1 text-sm lg:flex">
