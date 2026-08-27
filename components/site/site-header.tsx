@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Menu } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/server";
 import { SignOutButton } from "@/components/site/sign-out-button";
@@ -7,9 +6,6 @@ import { cn } from "@/lib/utils";
 
 const pageLinks = [
   { href: "/", label: "Home" },
-  { href: "/#whats-inside", label: "What's inside" },
-  { href: "/#about", label: "About" },
-  { href: "/#faq", label: "FAQ" },
   { href: "/blog", label: "Blog" },
 ];
 
@@ -32,19 +28,18 @@ export async function SiteHeader() {
           Hobby Engineer Deck
         </Link>
 
-        <nav className="text-muted-foreground hidden items-center gap-1 text-sm lg:flex">
-          {pageLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(buttonVariants({ variant: "ghost" }), "text-foreground/80")}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
         <div className="flex items-center gap-1 sm:gap-2">
+          <nav className="flex items-center gap-1 text-sm">
+            {pageLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(buttonVariants({ variant: "ghost" }), "text-foreground/80")}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
           {user ? (
             <>
               <Link
@@ -65,36 +60,6 @@ export async function SiteHeader() {
               </Link>
             </>
           )}
-
-          <details className="relative lg:hidden">
-            <summary className={cn(buttonVariants({ variant: "outline", size: "icon" }), "list-none [&::-webkit-details-marker]:hidden")}>
-              <Menu className="size-4" />
-              <span className="sr-only">Open menu</span>
-            </summary>
-            <div className="bg-popover absolute top-[calc(100%+0.5rem)] right-0 z-50 flex w-52 flex-col rounded-xl border p-2 shadow-lg">
-              {pageLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(buttonVariants({ variant: "ghost" }), "justify-start")}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              {!user ? (
-                <Link href="/signup" className={cn(buttonVariants(), "pill-cta mt-1 justify-center")}>
-                  Sign up
-                </Link>
-              ) : (
-                <Link
-                  href="/dashboard/blog"
-                  className={cn(buttonVariants({ variant: "ghost" }), "justify-start sm:hidden")}
-                >
-                  Dashboard
-                </Link>
-              )}
-            </div>
-          </details>
         </div>
       </div>
     </header>

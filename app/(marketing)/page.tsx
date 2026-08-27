@@ -1,15 +1,25 @@
 import Link from "next/link";
 import {
   BookOpen,
+  Boxes,
   Briefcase,
   Check,
   CircuitBoard,
-  Hammer,
+  Cloud,
+  CodeXml,
+  Database,
+  GitBranch,
+  GitFork,
+  Hash,
+  Layers2,
+  LayoutDashboard,
   MessagesSquare,
   Newspaper,
   Play,
   Radio,
   Rocket,
+  StickyNote,
+  Terminal,
   TrendingUp,
   Users,
   Wrench,
@@ -74,44 +84,106 @@ const faqs = [
 ];
 
 function WorkshopScene() {
+  const platforms = [
+    { name: "VS Code", icon: CodeXml, className: "deck-chip left-0 top-[8%]" },
+    { name: "GitHub", icon: GitFork, className: "deck-chip -right-3 top-[18%]" },
+    { name: "Figma", icon: Layers2, className: "deck-chip -left-6 top-[42%]" },
+    { name: "Linear", icon: LayoutDashboard, className: "deck-chip -right-8 top-[48%]" },
+    { name: "Slack", icon: Hash, className: "deck-chip left-[8%] top-[28%]" },
+    { name: "Notion", icon: StickyNote, className: "deck-chip right-[6%] top-[32%]" },
+    { name: "Docker", icon: Boxes, className: "deck-chip left-[4%] top-[68%]" },
+    { name: "Cloud", icon: Cloud, className: "deck-chip right-[2%] top-[72%]" },
+    { name: "Postgres", icon: Database, className: "deck-chip-alt left-[18%] -bottom-2" },
+    { name: "Next.js", icon: GitBranch, className: "deck-chip-alt right-[12%] -bottom-1" },
+  ];
+
   return (
-    <div className="relative mx-auto aspect-[4/5] w-full max-w-[280px] lg:ml-auto lg:mr-0 lg:max-w-[320px]">
+    <div className="relative mx-auto aspect-[4/5] w-full max-w-[400px] overflow-visible lg:ml-auto lg:mr-0 lg:max-w-[500px]">
       <div className="from-primary/40 via-primary/15 absolute inset-8 rounded-[2rem] bg-gradient-to-br to-transparent blur-2xl" />
-      <div className="bg-foreground relative h-full overflow-hidden rounded-[1.75rem] shadow-xl">
+      <div className="bg-foreground relative z-10 h-full overflow-hidden rounded-[1.75rem] shadow-xl">
         <div
-          className="absolute inset-0 opacity-30"
+          className="absolute inset-0 opacity-20"
           style={{
             backgroundImage:
               "linear-gradient(#fcbf30 1px, transparent 1px), linear-gradient(90deg, #fcbf30 1px, transparent 1px)",
-            backgroundSize: "28px 28px",
+            backgroundSize: "24px 24px",
           }}
         />
-        <div className="absolute inset-x-8 top-10 h-2/5 rounded-2xl bg-zinc-800 ring-1 ring-white/10" />
-        <div className="bg-primary absolute right-10 top-16 size-16 rounded-full" />
-        <div className="absolute bottom-16 left-10 right-10 h-24 rounded-xl bg-zinc-700/80" />
-        <div className="absolute bottom-20 left-16 flex gap-2">
-          <CircuitBoard className="text-primary size-8" />
-          <Wrench className="size-8 text-zinc-400" />
-          <Hammer className="size-8 text-zinc-500" />
+
+        <div className="absolute inset-x-5 top-8 overflow-hidden rounded-xl bg-zinc-900 shadow-inner ring-1 ring-white/10">
+          <div className="flex items-center gap-1.5 border-b border-white/10 px-3 py-2">
+            <span className="size-2 rounded-full bg-zinc-600" />
+            <span className="size-2 rounded-full bg-zinc-600" />
+            <span className="bg-primary size-2 rounded-full" />
+            <span className="ml-2 font-mono text-[10px] tracking-wide text-zinc-500">
+              hobby-engineer-deck
+            </span>
+          </div>
+          <div className="flex min-h-[9.5rem]">
+            <div className="w-9 space-y-2 border-r border-white/10 bg-zinc-950/80 p-2">
+              <CodeXml className="text-primary size-4" />
+              <GitBranch className="size-4 text-zinc-500" />
+              <Database className="size-4 text-zinc-500" />
+            </div>
+            <div className="flex-1 space-y-1.5 p-3 font-mono text-[9px] leading-relaxed">
+              <p className="text-zinc-500">
+                <span className="text-[#fcbf30]">const</span> learn ={" "}
+                <span className="text-zinc-300">&quot;in public&quot;</span>
+              </p>
+              <p className="text-zinc-500">
+                <span className="text-[#fcbf30]">await</span> share(notes)
+              </p>
+              <p className="text-zinc-600">// ship what you just learned</p>
+              <p className="text-zinc-400">
+                publish(<span className="text-[#fcbf30]">draft</span>)
+              </p>
+            </div>
+          </div>
         </div>
-        <p className="absolute bottom-6 left-0 right-0 text-center text-xs tracking-wide text-zinc-400 uppercase">
-          Bench, not a studio set
+
+        <div className="absolute right-6 bottom-16 left-6 overflow-hidden rounded-lg bg-zinc-950/90 ring-1 ring-white/10">
+          <div className="flex items-center gap-2 border-b border-white/10 px-2.5 py-1">
+            <Terminal className="text-primary size-3" />
+            <span className="font-mono text-[9px] text-zinc-500">zsh</span>
+          </div>
+          <p className="px-2.5 py-1.5 font-mono text-[9px] text-zinc-400">
+            <span className="text-[#fcbf30]">$</span> git push origin main
+          </p>
+        </div>
+
+        <p className="absolute bottom-5 left-0 right-0 text-center text-[10px] tracking-wide text-zinc-400 uppercase">
+          Software deck, not a hardware bench
         </p>
       </div>
 
-      <div className="bg-primary text-primary-foreground absolute -top-3 right-2 max-w-[13rem] rounded-2xl rounded-br-sm px-4 py-3 text-sm font-medium shadow-lg sm:-right-4">
-        Write in public. Keep the flux on the bench.
+      <div className="pointer-events-none absolute inset-0 z-20">
+        {platforms.map((platform) => (
+          <span
+            key={platform.name}
+            className={cn(
+              "absolute inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-[10px] font-semibold text-[#171717] shadow-md ring-1 ring-black/5",
+              platform.className,
+            )}
+          >
+            <platform.icon className="size-3 text-[#c48900]" />
+            {platform.name}
+          </span>
+        ))}
       </div>
-      <div className="absolute -left-2 top-1/3 rounded-2xl bg-white px-4 py-3 shadow-lg ring-1 ring-black/5 sm:-left-6">
+
+      <div className="bg-primary text-primary-foreground absolute -top-3 right-2 z-30 max-w-[13rem] rounded-2xl rounded-br-sm px-4 py-3 text-sm font-medium shadow-lg sm:-right-4">
+        Write in public. Ship from your desk.
+      </div>
+      <div className="absolute -left-2 top-1/3 z-30 rounded-2xl bg-white px-4 py-3 shadow-lg ring-1 ring-black/5 sm:-left-6">
         <p className="text-muted-foreground text-xs">Status</p>
         <p className="text-sm font-semibold">Blog is live</p>
         <div className="bg-primary mt-2 h-1.5 w-24 rounded-full" />
       </div>
-      <div className="absolute -bottom-4 right-4 max-w-[14rem] rounded-2xl bg-white p-4 shadow-lg ring-1 ring-black/5 sm:right-0">
+      <div className="absolute -bottom-4 right-4 z-30 max-w-[14rem] rounded-2xl bg-white p-4 shadow-lg ring-1 ring-black/5 sm:right-0">
         <p className="text-sm leading-snug">
-          “Teach the course you needed at 11 p.m. with a cold iron.”
+          “Teach the course you needed at 11 p.m. with a failing test.”
         </p>
-        <p className="text-muted-foreground mt-2 text-xs">A maker, not a funnel</p>
+        <p className="text-muted-foreground mt-2 text-xs">An engineer, not a funnel</p>
       </div>
     </div>
   );
@@ -120,7 +192,7 @@ function WorkshopScene() {
 export default function MarketingPage() {
   return (
     <main>
-      <section className="mx-auto grid w-full max-w-6xl items-start gap-10 px-4 pt-8 pb-16 sm:px-6 lg:grid-cols-2 lg:gap-12 lg:pt-10 lg:pb-20">
+      <section className="mx-auto grid w-full max-w-6xl items-start gap-10 overflow-visible px-4 pt-8 pb-16 sm:px-6 lg:grid-cols-2 lg:gap-12 lg:pt-10 lg:pb-20">
         <div>
           <p className="text-foreground/70 mb-3 text-sm font-medium">
             For Every Engineer Out there
