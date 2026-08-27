@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma/client";
+import { getActivePortal } from "@/lib/auth/portal";
 import { requireAuthor } from "@/lib/auth/session";
 import { DeletePostButton } from "@/components/blog/delete-post-button";
 import { Badge } from "@/components/ui/badge";
@@ -10,6 +11,8 @@ import { cn } from "@/lib/utils";
 export default async function DashboardBlogPage() {
   const { appUser, allowed } = await requireAuthor();
   if (!allowed) return null;
+
+  const activePortal = await getActivePortal(appUser);
 
   const posts = await prisma.blogPost.findMany({
     where: { authorId: appUser.id },
@@ -23,9 +26,11 @@ export default async function DashboardBlogPage() {
           <h1 className="font-heading text-3xl tracking-tight">Your posts</h1>
           <p className="text-muted-foreground mt-1 text-sm">Drafts and published pieces.</p>
         </div>
-        <Link href="/dashboard/blog/new" className={cn(buttonVariants())}>
-          New post
-        </Link>
+        {activePortal === "mentor" ? (
+          <Link href="/dashboard/blog/new" className={cn(buttonVariants())}>
+            New post
+          </Link>
+        ) : null}
       </div>
 
       {posts.length === 0 ? (

@@ -3,7 +3,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { PortalSwitcher } from "@/components/site/portal-switcher";
 import { SignOutButton } from "@/components/site/sign-out-button";
 import { canAuthor } from "@/lib/auth/capabilities";
-import { getSessionContext } from "@/lib/auth/session";
+import { getAuthUser, getSessionContext } from "@/lib/auth/session";
 import { cn } from "@/lib/utils";
 
 const pageLinks = [
@@ -12,7 +12,24 @@ const pageLinks = [
 ];
 
 export async function SiteHeader() {
-  const { appUser, activePortal } = await getSessionContext();
+  let authUser = null;
+  try {
+    authUser = await getAuthUser();
+  } catch {
+    authUser = null;
+  }
+
+  let appUser = null;
+  let activePortal: "learner" | "mentor" = "learner";
+  if (authUser) {
+    try {
+      const session = await getSessionContext();
+      appUser = session.appUser;
+      activePortal = session.activePortal;
+    } catch {
+      appUser = null;
+    }
+  }
   const mentor = appUser ? canAuthor(appUser) : false;
 
   return (
@@ -34,11 +51,11 @@ export async function SiteHeader() {
               </Link>
             ))}
           </nav>
-          {appUser ? (
+          {authUser ? (
             <>
               {mentor ? (
                 <>
-                  <PortalSwitcher activePortal={activePortal} className="hidden sm:inline-flex" />
+                  <PortalSwitcher activePortal={activePortal} />
                   {activePortal === "mentor" ? (
                     <Link
                       href="/dashboard/blog"

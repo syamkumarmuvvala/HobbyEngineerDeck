@@ -21,11 +21,15 @@ export async function requireAppUser() {
 }
 
 export async function getAppUser() {
-  const user = await getAuthUser();
-  if (!user) {
+  try {
+    const user = await getAuthUser();
+    if (!user) {
+      return null;
+    }
+    return await syncUser(user);
+  } catch {
     return null;
   }
-  return syncUser(user);
 }
 
 export async function requireAuthor() {

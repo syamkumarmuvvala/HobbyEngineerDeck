@@ -15,6 +15,7 @@ export async function setPortal(portal: Portal) {
     path: "/",
     maxAge: 60 * 60 * 24 * 365,
     sameSite: "lax",
+    httpOnly: true,
   });
 
   redirect(nextPortal === "mentor" ? "/dashboard/blog" : "/blog");

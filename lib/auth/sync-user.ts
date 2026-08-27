@@ -18,22 +18,61 @@ export async function syncUser(authUser: AuthUser) {
     throw new Error("Authenticated user is missing an email");
   }
 
-  return prisma.user.upsert({
-    where: { id: authUser.id },
-    create: {
+  const email = authUser.email;
+  const name = displayName(authUser);
+  const picture = avatarUrl(authUser);
+  const profile = {
+    email,
+    ...(name ? { name } : {}),
+    ...(picture ? { avatarUrl: picture } : {}),
+  };
+
+  const byId = await prisma.user.findUnique({ where: { id: authUser.id } });
+  if (byId) {
+    return prisma.user.update({
+      where: { id: authUser.id },
+      data: profile,
+    });
+  }
+
+  const byEmail = await prisma.user.findUnique({ where: { email } });
+  if (byEmail) {
+    return prisma.$transaction(async (tx) => {
+      await tx.user.update({
+        where: { id: byEmail.id },
+        data: { email: `migrated+${byEmail.id}@local.invalid` },
+      });
+      const created = await tx.user.create({
+        data: {
+          id: authUser.id,
+          email,
+          name: name ?? byEmail.name,
+          avatarUrl: picture ?? byEmail.avatarUrl,
+          role: byEmail.role,
+          isMember: byEmail.isMember,
+          isMentor: byEmail.isMentor,
+          isAdmin: byEmail.isAdmin,
+        },
+      });
+      await tx.blogPost.updateMany({
+        where: { authorId: byEmail.id },
+        data: { authorId: created.id },
+      });
+      await tx.user.delete({ where: { id: byEmail.id } });
+      return created;
+    });
+  }
+
+  return prisma.user.create({
+    data: {
       id: authUser.id,
-      email: authUser.email,
-      name: displayName(authUser),
-      avatarUrl: avatarUrl(authUser),
+      email,
+      name,
+      avatarUrl: picture,
       role: "MEMBER",
       isMember: true,
       isMentor: false,
       isAdmin: false,
-    },
-    update: {
-      email: authUser.email,
-      name: displayName(authUser) ?? undefined,
-      avatarUrl: avatarUrl(authUser) ?? undefined,
     },
   });
 }
