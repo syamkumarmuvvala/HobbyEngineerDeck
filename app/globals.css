@@ -256,6 +256,36 @@
   animation-delay: -1.5s;
 }
 
+.deck-chip:nth-child(11) {
+  animation-duration: 7.4s;
+  animation-delay: -0.6s;
+}
+
+.deck-chip:nth-child(12) {
+  animation-duration: 8.1s;
+  animation-delay: -2.9s;
+}
+
+.deck-chip:nth-child(13) {
+  animation-duration: 6.9s;
+  animation-delay: -1.1s;
+}
+
+.deck-chip:nth-child(14) {
+  animation-duration: 9.4s;
+  animation-delay: -3.4s;
+}
+
+.deck-chip:nth-child(15) {
+  animation-duration: 7.8s;
+  animation-delay: -0.2s;
+}
+
+.deck-chip:nth-child(16) {
+  animation-duration: 8.3s;
+  animation-delay: -2s;
+}
+
 .deck-chip-alt:nth-child(odd) {
   animation-delay: -1s;
 }

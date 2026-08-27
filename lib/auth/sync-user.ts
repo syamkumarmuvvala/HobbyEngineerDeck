@@ -1,6 +1,5 @@
 import type { User as AuthUser } from "@supabase/supabase-js";
 import { prisma } from "@/lib/prisma/client";
-import type { Role } from "@/lib/generated/prisma/client";
 
 function displayName(user: AuthUser) {
   const meta = user.user_metadata ?? {};
@@ -27,6 +26,9 @@ export async function syncUser(authUser: AuthUser) {
       name: displayName(authUser),
       avatarUrl: avatarUrl(authUser),
       role: "MEMBER",
+      isMember: true,
+      isMentor: false,
+      isAdmin: false,
     },
     update: {
       email: authUser.email,
@@ -36,6 +38,4 @@ export async function syncUser(authUser: AuthUser) {
   });
 }
 
-export function canAuthor(role: Role) {
-  return role === "MENTOR" || role === "ADMIN";
-}
+export { canAuthor, isMember, isAdmin } from "@/lib/auth/capabilities";
