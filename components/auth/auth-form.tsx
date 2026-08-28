@@ -16,6 +16,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
   const searchParams = useSearchParams();
   const next = searchParams.get("next") ?? "/blog";
   const [pending, setPending] = useState(false);
+  const [googlePending, setGooglePending] = useState(false);
 
   async function onSubmit(formData: FormData) {
     setPending(true);
@@ -34,14 +35,14 @@ export function AuthForm({ mode }: { mode: Mode }) {
           })
         : await supabase.auth.signInWithPassword({ email, password });
 
-    setPending(false);
-
     if (error) {
+      setPending(false);
       toast.error(error.message);
       return;
     }
 
     if (mode === "signup") {
+      setPending(false);
       toast.success("Account created. You can sign in now.");
       router.push("/login");
       router.refresh();
@@ -56,6 +57,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
   }
 
   async function onGoogle() {
+    setGooglePending(true);
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -63,7 +65,10 @@ export function AuthForm({ mode }: { mode: Mode }) {
         redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
       },
     });
-    if (error) toast.error(error.message);
+    if (error) {
+      setGooglePending(false);
+      toast.error(error.message);
+    }
   }
 
   return (
@@ -94,11 +99,17 @@ export function AuthForm({ mode }: { mode: Mode }) {
             autoComplete={mode === "login" ? "current-password" : "new-password"}
           />
         </div>
-        <Button type="submit" className="w-full" disabled={pending}>
+        <Button type="submit" className="w-full" loading={pending}>
           {pending ? "Please wait…" : mode === "login" ? "Sign in" : "Sign up"}
         </Button>
       </form>
-      <Button type="button" variant="outline" className="w-full" onClick={onGoogle}>
+      <Button
+        type="button"
+        variant="outline"
+        className="w-full"
+        loading={googlePending}
+        onClick={onGoogle}
+      >
         Continue with Google
       </Button>
       <p className="text-muted-foreground text-center text-sm">

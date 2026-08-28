@@ -141,6 +141,7 @@ export function PostEditor({ post }: { post: EditorPost }) {
   const [contentTick, setContentTick] = useState(0);
   const [, setSelectionTick] = useState(0);
   const [pending, setPending] = useState(false);
+  const [pendingIntent, setPendingIntent] = useState<SaveIntent | null>(null);
   const [savedLabel, setSavedLabel] = useState(post.id ? "Saved" : "Not saved yet");
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [youtubeOpen, setYoutubeOpen] = useState(false);
@@ -230,6 +231,7 @@ export function PostEditor({ post }: { post: EditorPost }) {
     if (!editor) return;
 
     savingRef.current = true;
+    setPendingIntent(intent);
     setPending(true);
     try {
       const result = await savePost({
@@ -261,6 +263,7 @@ export function PostEditor({ post }: { post: EditorPost }) {
       toast.error(error instanceof Error ? error.message : "Could not save");
     } finally {
       savingRef.current = false;
+      setPendingIntent(null);
       setPending(false);
     }
   }
@@ -330,6 +333,7 @@ export function PostEditor({ post }: { post: EditorPost }) {
         scheduledAt={scheduledAt}
         savedLabel={savedLabel}
         pending={pending}
+        pendingIntent={pendingIntent}
         postId={postId}
         slug={slug}
         onSave={() => void persist("persist", true)}

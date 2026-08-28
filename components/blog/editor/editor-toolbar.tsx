@@ -5,6 +5,7 @@ import { Settings } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { isLivePost, statusLabel } from "@/lib/blog/live";
+import type { SaveIntent } from "@/app/(mentor)/dashboard/blog/actions";
 import type { PostStatus } from "@/lib/generated/prisma/client";
 
 export function EditorToolbar({
@@ -12,6 +13,7 @@ export function EditorToolbar({
   scheduledAt,
   savedLabel,
   pending,
+  pendingIntent,
   postId,
   slug,
   onSave,
@@ -24,6 +26,7 @@ export function EditorToolbar({
   scheduledAt: Date | string | null;
   savedLabel: string;
   pending: boolean;
+  pendingIntent: SaveIntent | null;
   postId?: string;
   slug: string;
   onSave: () => void;
@@ -64,19 +67,46 @@ export function EditorToolbar({
             View live
           </Link>
         ) : null}
-        <Button type="button" size="sm" variant="outline" disabled={pending} onClick={onSave}>
-          Save
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          loading={pending && pendingIntent === "persist"}
+          disabled={pending}
+          onClick={onSave}
+        >
+          {pending && pendingIntent === "persist" ? "Saving…" : "Save"}
         </Button>
         {status !== "DRAFT" ? (
-          <Button type="button" size="sm" variant="ghost" disabled={pending} onClick={onUnpublish}>
-            Unpublish
+          <Button
+            type="button"
+            size="sm"
+            variant="ghost"
+            loading={pending && pendingIntent === "unpublish"}
+            disabled={pending}
+            onClick={onUnpublish}
+          >
+            {pending && pendingIntent === "unpublish" ? "Unpublishing…" : "Unpublish"}
           </Button>
         ) : null}
-        <Button type="button" size="sm" variant="outline" disabled={pending} onClick={onSchedule}>
-          Schedule
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          loading={pending && pendingIntent === "schedule"}
+          disabled={pending}
+          onClick={onSchedule}
+        >
+          {pending && pendingIntent === "schedule" ? "Scheduling…" : "Schedule"}
         </Button>
-        <Button type="button" size="sm" disabled={pending} onClick={onPublish}>
-          Publish
+        <Button
+          type="button"
+          size="sm"
+          loading={pending && pendingIntent === "publish"}
+          disabled={pending}
+          onClick={onPublish}
+        >
+          {pending && pendingIntent === "publish" ? "Publishing…" : "Publish"}
         </Button>
       </div>
     </div>

@@ -83,10 +83,11 @@ export function EditorSettingsFields({
                   type="button"
                   size="xs"
                   variant="ghost"
+                  loading={restoringId === revision.id}
                   disabled={restoringId === revision.id}
                   onClick={() => onRestore(revision.id)}
                 >
-                  Restore
+                  {restoringId === revision.id ? "Restoring…" : "Restore"}
                 </Button>
               </li>
             ))}

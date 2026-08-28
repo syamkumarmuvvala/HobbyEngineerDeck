@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { SubmitButton } from "@/components/ui/submit-button";
 import {
   Dialog,
   DialogContent,
@@ -35,9 +36,9 @@ export function DeletePostButton({ id, title }: { id: string; title: string }) {
             </Button>
             <form action={deletePost}>
               <input type="hidden" name="id" value={id} />
-              <Button type="submit" variant="destructive">
+              <SubmitButton variant="destructive" pendingLabel="Deleting…">
                 Delete
-              </Button>
+              </SubmitButton>
             </form>
           </DialogFooter>
         </DialogContent>
