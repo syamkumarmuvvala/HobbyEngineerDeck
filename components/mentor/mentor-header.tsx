@@ -11,8 +11,8 @@ export function MentorHeader({ activePortal }: { activePortal: Portal }) {
           Hobby Engineer Deck
         </Link>
         <div className="flex items-center gap-1 sm:gap-2">
-          <SignOutButton />
           <PortalSwitcher activePortal={activePortal} />
+          <SignOutButton />
         </div>
       </div>
     </header>

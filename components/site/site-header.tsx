@@ -54,8 +54,8 @@ export async function SiteHeader() {
           </nav>
           {authUser ? (
             <>
-              <SignOutButton />
               {mentor ? <PortalSwitcher activePortal="learner" /> : null}
+              <SignOutButton />
             </>
           ) : (
             <>

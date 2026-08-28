@@ -25,14 +25,14 @@ export function PortalSwitcher({
     <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(
-          buttonVariants({ variant: "ghost", size: "sm" }),
+          buttonVariants({ variant: "ghost" }),
           "text-foreground/80 gap-1",
           className,
         )}
         aria-label="Switch portal"
       >
         {label}
-        <ChevronDownIcon className="size-3.5 opacity-60" />
+        <ChevronDownIcon className="size-4 opacity-60" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-36">
         <DropdownMenuItem onClick={() => setPortal("learner")}>
