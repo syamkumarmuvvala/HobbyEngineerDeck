@@ -202,14 +202,19 @@ export default function MarketingPage() {
       <section className="mx-auto grid w-full max-w-6xl items-start gap-10 overflow-visible px-4 pt-8 pb-16 sm:px-6 lg:grid-cols-2 lg:items-stretch lg:gap-12 lg:pt-10 lg:pb-20">
         <div>
           <p className="text-foreground/70 mb-3 text-sm font-medium">
-            For Every Engineer Out there
+            For Every Software Engineer Out there
           </p>
           <h1 className="font-heading text-4xl leading-tight tracking-tight text-pretty sm:text-5xl lg:text-6xl">
             Learn, Engineer, and Share.
           </h1>
           <p className="text-muted-foreground mt-5 max-w-lg text-lg leading-relaxed">
-            HobbyEngineerDeck is where practitioners write build logs, teach from the bench, and
-            talk about how things actually work. The blog is live. Courses and community are next.
+            HobbyEngineerDeck is a place for software engineers to document what they&apos;re actually
+            building — write-ups on how things really work under the hood, and lessons pulled
+            straight from hands-on practice.
+            <br />
+            <br />
+            It started as one practitioner&apos;s notes from working in Pega CDH and AI decisioning,
+            and is growing into a space where any engineer can do the same.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <Link href="/signup" className={cn(buttonVariants(), "pill-cta")}>
