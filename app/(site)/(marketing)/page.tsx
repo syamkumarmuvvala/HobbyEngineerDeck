@@ -1,7 +1,6 @@
 import Link from "next/link";
 import {
   BookOpen,
-  Boxes,
   Briefcase,
   Check,
   CircuitBoard,
@@ -9,12 +8,8 @@ import {
   CodeXml,
   Database,
   GitBranch,
-  GitFork,
-  Hash,
-  Layers2,
   Kanban,
   Layers,
-  LayoutDashboard,
   MessagesSquare,
   Network,
   Newspaper,
@@ -23,7 +18,6 @@ import {
   Rocket,
   Shield,
   Sparkles,
-  StickyNote,
   Terminal,
   TrendingUp,
   Users,
@@ -91,23 +85,14 @@ const faqs = [
 
 function WorkshopScene() {
   const edgeChips = [
-    { name: "GitHub", icon: GitFork, className: "deck-chip -right-5 top-[18%]" },
-    { name: "Notion", icon: StickyNote, className: "deck-chip -right-6 top-[36%]" },
-    { name: "Docker", icon: Boxes, className: "deck-chip -left-5 top-[14%]" },
-    { name: "Postgres", icon: Database, className: "deck-chip-alt -left-6 top-[72%]" },
-    { name: "Next.js", icon: GitBranch, className: "deck-chip-alt left-[42%] -bottom-5" },
-  ];
-
-  const innerChips = [
     { name: "Pega", icon: Workflow, className: "deck-chip left-[10%] top-[10%]" },
     { name: "Pega CDH", icon: Sparkles, className: "deck-chip left-[52%] top-[6%]" },
-    { name: "VS Code", icon: CodeXml, className: "deck-chip left-[6%] top-[30%]" },
-    { name: "Slack", icon: Hash, className: "deck-chip left-[58%] top-[24%]" },
-    { name: "Figma", icon: Layers2, className: "deck-chip left-[22%] top-[42%]" },
-    { name: "Linear", icon: LayoutDashboard, className: "deck-chip left-[68%] top-[38%]" },
     { name: "Pega Constellation", icon: Layers, className: "deck-chip left-[38%] top-[34%]" },
     { name: "Pega Customer Service", icon: Users, className: "deck-chip-alt left-[8%] top-[54%]" },
     { name: "Pega CLM KYC", icon: Shield, className: "deck-chip left-[54%] top-[50%]" },
+  ];
+
+  const innerChips = [
     { name: "Pega Case Management", icon: Kanban, className: "deck-chip-alt left-[30%] top-[62%]" },
     { name: "Cloud", icon: Cloud, className: "deck-chip left-[44%] top-[48%]" },
     { name: "System Design", icon: Network, className: "deck-chip-alt left-[72%] top-[56%]" },
@@ -194,18 +179,18 @@ function WorkshopScene() {
       </div>
 
       <div className="bg-primary text-primary-foreground absolute -top-3 right-2 z-20 max-w-[13rem] rounded-2xl rounded-br-sm px-4 py-3 text-sm font-medium shadow-lg sm:-right-4">
-        Write in public. Ship from your desk.
+        Learn, Build, Fix, Deploy, and Collaborate
       </div>
       <div className="absolute top-[34%] -left-2 z-20 rounded-2xl bg-white px-4 py-3 shadow-lg ring-1 ring-black/5 sm:-left-6">
         <p className="text-muted-foreground text-xs">Status</p>
-        <p className="text-sm font-semibold">Blog is live</p>
+        <p className="text-sm font-semibold">Constant Evolution</p>
         <div className="bg-primary mt-2 h-1.5 w-24 rounded-full" />
       </div>
       <div className="absolute right-0 -bottom-3 z-20 max-w-[14rem] rounded-2xl bg-white p-3 shadow-lg ring-1 ring-black/5">
         <p className="text-sm leading-snug">
-          “Teach the course you needed at 11 p.m. with a failing test.”
+          “Learn, Teach, Collaborate from your computer desk”
         </p>
-        <p className="text-muted-foreground mt-2 text-xs">An engineer, not a funnel</p>
+        <p className="text-muted-foreground mt-2 text-xs">Unlock your long time procrastination</p>
       </div>
     </div>
   );
