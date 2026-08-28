@@ -176,6 +176,78 @@
   @apply text-muted-foreground border-l-2 pl-4 italic;
 }
 
+.blog-content table {
+  @apply my-6 w-full border-collapse text-sm;
+}
+
+.blog-content th,
+.blog-content td {
+  @apply border-border border px-3 py-2 text-left;
+}
+
+.blog-content th {
+  @apply bg-muted/70 font-medium;
+}
+
+.blog-content iframe.youtube-embed,
+.blog-content .youtube-embed {
+  @apply my-6 aspect-video w-full rounded-xl border-0;
+}
+
+.blog-content .callout,
+.callout {
+  @apply border-border my-6 rounded-xl border px-4 py-3;
+}
+
+.callout-note {
+  @apply bg-muted/50;
+}
+
+.callout-tip {
+  @apply border-primary/40 bg-primary/10;
+}
+
+.callout-warning {
+  @apply border-destructive/30 bg-destructive/10;
+}
+
+.blog-content .hljs-keyword,
+.blog-content .hljs-selector-tag,
+.blog-content .hljs-built_in {
+  color: oklch(0.45 0.12 260);
+}
+
+.blog-content .hljs-string,
+.blog-content .hljs-attr {
+  color: oklch(0.45 0.12 145);
+}
+
+.blog-content .hljs-number,
+.blog-content .hljs-literal {
+  color: oklch(0.5 0.14 40);
+}
+
+.blog-content .hljs-comment {
+  @apply text-muted-foreground italic;
+}
+
+.tiptap p.is-empty::before,
+.tiptap p.is-editor-empty::before {
+  color: var(--muted-foreground);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.drag-handle {
+  @apply text-muted-foreground hover:bg-muted flex size-6 cursor-grab items-center justify-center rounded-md;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
 .pill-cta {
   @apply h-11 rounded-full px-6 text-sm font-semibold;
 }

@@ -6,10 +6,12 @@ import { canAuthor } from "@/lib/auth/capabilities";
 import { getAuthUser, getSessionContext } from "@/lib/auth/session";
 import { cn } from "@/lib/utils";
 
-const pageLinks = [
+const publicLinks = [
   { href: "/", label: "Home" },
   { href: "/blog", label: "Blog" },
 ];
+
+const memberLinks = [{ href: "/blog", label: "Blog" }];
 
 export async function SiteHeader() {
   let authUser = null;
@@ -20,17 +22,16 @@ export async function SiteHeader() {
   }
 
   let appUser = null;
-  let activePortal: "learner" | "mentor" = "learner";
   if (authUser) {
     try {
       const session = await getSessionContext();
       appUser = session.appUser;
-      activePortal = session.activePortal;
     } catch {
       appUser = null;
     }
   }
   const mentor = appUser ? canAuthor(appUser) : false;
+  const navLinks = authUser ? memberLinks : publicLinks;
 
   return (
     <header className="border-border/80 bg-background/90 sticky top-0 z-40 border-b backdrop-blur">
@@ -41,7 +42,7 @@ export async function SiteHeader() {
 
         <div className="flex items-center gap-1 sm:gap-2">
           <nav className="flex items-center gap-1 text-sm">
-            {pageLinks.map((link) => (
+            {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -53,16 +54,8 @@ export async function SiteHeader() {
           </nav>
           {authUser ? (
             <>
-              {mentor && activePortal === "mentor" ? (
-                <Link
-                  href="/dashboard/blog"
-                  className={cn(buttonVariants({ variant: "ghost" }), "hidden md:inline-flex")}
-                >
-                  Dashboard
-                </Link>
-              ) : null}
               <SignOutButton />
-              {mentor ? <PortalSwitcher activePortal={activePortal} /> : null}
+              {mentor ? <PortalSwitcher activePortal="learner" /> : null}
             </>
           ) : (
             <>

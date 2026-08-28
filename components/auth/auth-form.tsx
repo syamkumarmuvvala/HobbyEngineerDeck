@@ -14,7 +14,7 @@ type Mode = "login" | "signup";
 export function AuthForm({ mode }: { mode: Mode }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const next = searchParams.get("next") ?? "/";
+  const next = searchParams.get("next") ?? "/blog";
   const [pending, setPending] = useState(false);
 
   async function onSubmit(formData: FormData) {
@@ -48,7 +48,10 @@ export function AuthForm({ mode }: { mode: Mode }) {
       return;
     }
 
-    router.push(next);
+    const continueUrl = next
+      ? `/auth/continue?next=${encodeURIComponent(next)}`
+      : "/auth/continue";
+    router.push(continueUrl);
     router.refresh();
   }
 

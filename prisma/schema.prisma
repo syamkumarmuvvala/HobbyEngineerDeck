@@ -17,6 +17,7 @@ enum Role {
 enum PostStatus {
   DRAFT
   PUBLISHED
+  SCHEDULED
 }
 
 model User {
@@ -41,11 +42,26 @@ model BlogPost {
   coverImageUrl String?
   authorId      String        @db.Uuid
   author        User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  status        PostStatus    @default(DRAFT)
+  status        PostStatus          @default(DRAFT)
   publishedAt   DateTime?
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  scheduledAt   DateTime?
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
   tags          BlogPostTag[]
+  revisions     BlogPostRevision[]
+}
+
+model BlogPostRevision {
+  id            String   @id @default(uuid()) @db.Uuid
+  postId        String   @db.Uuid
+  post          BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  title         String
+  excerpt       String?  @db.Text
+  contentJson   Json
+  coverImageUrl String?
+  createdAt     DateTime @default(now())
+
+  @@index([postId, createdAt])
 }
 
 model Tag {

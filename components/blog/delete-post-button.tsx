@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { deletePost } from "@/app/dashboard/blog/actions";
+import { deletePost } from "@/app/(mentor)/dashboard/blog/actions";
 
 export function DeletePostButton({ id, title }: { id: string; title: string }) {
   const [open, setOpen] = useState(false);
