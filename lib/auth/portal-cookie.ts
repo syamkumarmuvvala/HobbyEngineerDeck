@@ -30,7 +30,8 @@ export function portalForPath(pathname: string): Portal | null {
     pathname === "/blog" ||
     pathname.startsWith("/blog/") ||
     pathname === "/login" ||
-    pathname === "/signup"
+    pathname === "/signup" ||
+    pathname.startsWith("/signup/")
   ) {
     return "learner";
   }

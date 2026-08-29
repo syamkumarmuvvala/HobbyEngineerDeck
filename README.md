@@ -23,7 +23,7 @@ Auth site URL: `http://localhost:3000`. Redirect: `http://localhost:3000/auth/ca
 
 Email/password is enough to start. For Google, add a Google Cloud OAuth client (Web) with redirect `https://<project-ref>.supabase.co/auth/v1/callback`, then paste the client ID and secret into Supabase Auth → Google.
 
-Promote a writer by setting `User.role` to `MENTOR` or `ADMIN` in the Table Editor.
+Promote a writer by setting `User.isMentor` to `true` (or `User.isAdmin` to `true`) in the Table Editor.
 
 ## Vercel
 

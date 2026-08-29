@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { resolvePostAuthDestination } from "@/lib/auth/onboarding";
 import { syncUser } from "@/lib/auth/sync-user";
-import { applyPortalCookie, destinationForUser, portalForUser, writePortalCookie } from "@/lib/auth/portal";
+import { applyPortalCookie, portalForUser, writePortalCookie } from "@/lib/auth/portal";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
@@ -14,7 +15,8 @@ export async function GET(request: Request) {
     if (!error && data.user) {
       const appUser = await syncUser(data.user);
       await writePortalCookie(portalForUser(appUser));
-      const response = NextResponse.redirect(new URL(destinationForUser(appUser, next), origin));
+      const destination = resolvePostAuthDestination(appUser, next);
+      const response = NextResponse.redirect(new URL(destination, origin));
       applyPortalCookie(response.cookies, portalForUser(appUser));
       return response;
     }

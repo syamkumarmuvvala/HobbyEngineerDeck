@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation";
+import { resolvePostAuthDestination } from "@/lib/auth/onboarding";
 import { getAuthUser } from "@/lib/auth/session";
 import { syncUser } from "@/lib/auth/sync-user";
-import { destinationForUser, portalForUser, writePortalCookie } from "@/lib/auth/portal";
+import { portalForUser, writePortalCookie } from "@/lib/auth/portal";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -14,5 +15,5 @@ export async function GET(request: Request) {
 
   const appUser = await syncUser(authUser);
   await writePortalCookie(portalForUser(appUser));
-  redirect(destinationForUser(appUser, next));
+  redirect(resolvePostAuthDestination(appUser, next));
 }

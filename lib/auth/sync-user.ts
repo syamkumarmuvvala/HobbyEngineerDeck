@@ -1,16 +1,44 @@
 import type { User as AuthUser } from "@supabase/supabase-js";
 import { prisma } from "@/lib/prisma/client";
+import { displayNameFromParts } from "@/lib/auth/onboarding";
 
-function displayName(user: AuthUser) {
-  const meta = user.user_metadata ?? {};
-  const name = meta.full_name ?? meta.name ?? meta.user_name;
-  return typeof name === "string" && name.length > 0 ? name : null;
+function readString(meta: Record<string, unknown>, key: string) {
+  const value = meta[key];
+  return typeof value === "string" && value.length > 0 ? value : null;
 }
 
-function avatarUrl(user: AuthUser) {
-  const meta = user.user_metadata ?? {};
-  const url = meta.avatar_url ?? meta.picture;
-  return typeof url === "string" && url.length > 0 ? url : null;
+function profileFromMetadata(user: AuthUser) {
+  const meta = (user.user_metadata ?? {}) as Record<string, unknown>;
+  const firstName =
+    readString(meta, "first_name") ??
+    readString(meta, "given_name") ??
+    (readString(meta, "full_name")?.split(" ")[0] ?? null);
+  const lastName =
+    readString(meta, "last_name") ??
+    readString(meta, "family_name") ??
+    (() => {
+      const full = readString(meta, "full_name");
+      if (!full) return null;
+      const parts = full.split(" ");
+      return parts.length > 1 ? parts.slice(1).join(" ") : null;
+    })();
+  const name =
+    readString(meta, "full_name") ??
+    readString(meta, "name") ??
+    readString(meta, "user_name") ??
+    displayNameFromParts(firstName, lastName);
+  const avatarUrl = readString(meta, "avatar_url") ?? readString(meta, "picture");
+  const phoneCountryCode = readString(meta, "phone_country_code");
+  const phoneNumber = readString(meta, "phone_number");
+
+  return {
+    firstName,
+    lastName,
+    name,
+    avatarUrl,
+    phoneCountryCode,
+    phoneNumber,
+  };
 }
 
 export async function syncUser(authUser: AuthUser) {
@@ -19,19 +47,28 @@ export async function syncUser(authUser: AuthUser) {
   }
 
   const email = authUser.email;
-  const name = displayName(authUser);
-  const picture = avatarUrl(authUser);
+  const fromMeta = profileFromMetadata(authUser);
   const profile = {
     email,
-    ...(name ? { name } : {}),
-    ...(picture ? { avatarUrl: picture } : {}),
+    ...(fromMeta.name ? { name: fromMeta.name } : {}),
+    ...(fromMeta.avatarUrl ? { avatarUrl: fromMeta.avatarUrl } : {}),
   };
 
   const byId = await prisma.user.findUnique({ where: { id: authUser.id } });
   if (byId) {
     return prisma.user.update({
       where: { id: authUser.id },
-      data: profile,
+      data: {
+        ...profile,
+        ...(byId.firstName ? {} : fromMeta.firstName ? { firstName: fromMeta.firstName } : {}),
+        ...(byId.lastName ? {} : fromMeta.lastName ? { lastName: fromMeta.lastName } : {}),
+        ...(byId.phoneCountryCode
+          ? {}
+          : fromMeta.phoneCountryCode
+            ? { phoneCountryCode: fromMeta.phoneCountryCode }
+            : {}),
+        ...(byId.phoneNumber ? {} : fromMeta.phoneNumber ? { phoneNumber: fromMeta.phoneNumber } : {}),
+      },
     });
   }
 
@@ -46,9 +83,18 @@ export async function syncUser(authUser: AuthUser) {
         data: {
           id: authUser.id,
           email,
-          name: name ?? byEmail.name,
-          avatarUrl: picture ?? byEmail.avatarUrl,
-          role: byEmail.role,
+          name: fromMeta.name ?? byEmail.name,
+          firstName: byEmail.firstName ?? fromMeta.firstName,
+          lastName: byEmail.lastName ?? fromMeta.lastName,
+          avatarUrl: fromMeta.avatarUrl ?? byEmail.avatarUrl,
+          phoneCountryCode: byEmail.phoneCountryCode ?? fromMeta.phoneCountryCode,
+          phoneNumber: byEmail.phoneNumber ?? fromMeta.phoneNumber,
+          memberType: byEmail.memberType,
+          fieldOfStudy: byEmail.fieldOfStudy,
+          experienceLevel: byEmail.experienceLevel,
+          interestAreas: byEmail.interestAreas,
+          location: byEmail.location,
+          onboardingCompletedAt: byEmail.onboardingCompletedAt,
           isMember: byEmail.isMember,
           isMentor: byEmail.isMentor,
           isAdmin: byEmail.isAdmin,
@@ -67,9 +113,12 @@ export async function syncUser(authUser: AuthUser) {
     data: {
       id: authUser.id,
       email,
-      name,
-      avatarUrl: picture,
-      role: "MEMBER",
+      name: fromMeta.name,
+      firstName: fromMeta.firstName,
+      lastName: fromMeta.lastName,
+      avatarUrl: fromMeta.avatarUrl,
+      phoneCountryCode: fromMeta.phoneCountryCode,
+      phoneNumber: fromMeta.phoneNumber,
       isMember: true,
       isMentor: false,
       isAdmin: false,

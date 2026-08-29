@@ -5,7 +5,7 @@ export default function LoginPage() {
   return (
     <main className="flex flex-1 items-center px-4 py-16">
       <Suspense>
-        <AuthForm mode="login" />
+        <AuthForm />
       </Suspense>
     </main>
   );

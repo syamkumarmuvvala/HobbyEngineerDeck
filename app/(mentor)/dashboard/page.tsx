@@ -10,7 +10,7 @@ export default async function DashboardHomePage() {
   if (!allowed) return null;
 
   const stats = await getAuthorPostStats(appUser.id);
-  const firstName = appUser.name?.split(" ")[0] ?? appUser.email.split("@")[0];
+  const firstName = appUser.firstName ?? appUser.name?.split(" ")[0] ?? appUser.email.split("@")[0];
 
   return (
     <div className="mx-auto w-full max-w-4xl space-y-8">
