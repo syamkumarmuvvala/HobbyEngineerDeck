@@ -1,58 +1,60 @@
 import Link from "next/link";
-import { Menu } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
-import { createClient } from "@/lib/supabase/server";
+import { PortalSwitcher } from "@/components/site/portal-switcher";
 import { SignOutButton } from "@/components/site/sign-out-button";
+import { canAuthor } from "@/lib/auth/capabilities";
+import { getAuthUser, getSessionContext } from "@/lib/auth/session";
 import { cn } from "@/lib/utils";
 
-const pageLinks = [
+const publicLinks = [
   { href: "/", label: "Home" },
-  { href: "/#whats-inside", label: "What's inside" },
-  { href: "/#about", label: "About" },
-  { href: "/#faq", label: "FAQ" },
   { href: "/blog", label: "Blog" },
 ];
 
+const memberLinks = [{ href: "/blog", label: "Blog" }];
+
 export async function SiteHeader() {
-  let user = null;
+  let authUser = null;
   try {
-    const supabase = await createClient();
-    const {
-      data: { user: authUser },
-    } = await supabase.auth.getUser();
-    user = authUser;
+    authUser = await getAuthUser();
   } catch {
-    user = null;
+    authUser = null;
   }
+
+  let appUser = null;
+  if (authUser) {
+    try {
+      const session = await getSessionContext();
+      appUser = session.appUser;
+    } catch {
+      appUser = null;
+    }
+  }
+  const mentor = appUser ? canAuthor(appUser) : false;
+  const navLinks = authUser ? memberLinks : publicLinks;
 
   return (
     <header className="border-border/80 bg-background/90 sticky top-0 z-40 border-b backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
         <Link href="/" className="font-heading shrink-0 text-lg tracking-tight">
-          HobbyEngineerDeck
+          Hobby Engineer Deck
         </Link>
 
-        <nav className="text-muted-foreground hidden items-center gap-1 text-sm lg:flex">
-          {pageLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(buttonVariants({ variant: "ghost" }), "text-foreground/80")}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
         <div className="flex items-center gap-1 sm:gap-2">
-          {user ? (
-            <>
+          <nav className="flex items-center gap-1 text-sm">
+            {navLinks.map((link) => (
               <Link
-                href="/dashboard/blog"
-                className={cn(buttonVariants({ variant: "ghost" }), "hidden sm:inline-flex")}
+                key={link.href}
+                href={link.href}
+                className={cn(buttonVariants({ variant: "ghost" }), "text-foreground/80")}
               >
-                Dashboard
+                {link.label}
               </Link>
+            ))}
+          </nav>
+          {authUser ? (
+            <>
+              {mentor ? <PortalSwitcher activePortal="learner" /> : null}
               <SignOutButton />
             </>
           ) : (
@@ -60,41 +62,14 @@ export async function SiteHeader() {
               <Link href="/login" className={cn(buttonVariants({ variant: "ghost" }))}>
                 Log in
               </Link>
-              <Link href="/signup" className={cn(buttonVariants(), "pill-cta hidden h-9 px-4 sm:inline-flex")}>
-                Sign up
+              <Link
+                href="/signup"
+                className={cn(buttonVariants(), "pill-cta hidden h-9 px-4 sm:inline-flex")}
+              >
+                Get Started
               </Link>
             </>
           )}
-
-          <details className="relative lg:hidden">
-            <summary className={cn(buttonVariants({ variant: "outline", size: "icon" }), "list-none [&::-webkit-details-marker]:hidden")}>
-              <Menu className="size-4" />
-              <span className="sr-only">Open menu</span>
-            </summary>
-            <div className="bg-popover absolute top-[calc(100%+0.5rem)] right-0 z-50 flex w-52 flex-col rounded-xl border p-2 shadow-lg">
-              {pageLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(buttonVariants({ variant: "ghost" }), "justify-start")}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              {!user ? (
-                <Link href="/signup" className={cn(buttonVariants(), "pill-cta mt-1 justify-center")}>
-                  Sign up
-                </Link>
-              ) : (
-                <Link
-                  href="/dashboard/blog"
-                  className={cn(buttonVariants({ variant: "ghost" }), "justify-start sm:hidden")}
-                >
-                  Dashboard
-                </Link>
-              )}
-            </div>
-          </details>
         </div>
       </div>
     </header>

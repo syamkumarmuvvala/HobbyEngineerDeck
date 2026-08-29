@@ -1,0 +1,20 @@
+-- CreateEnum
+CREATE TYPE "MemberType" AS ENUM ('STUDENT', 'SOFTWARE_AI_ENGINEER', 'HARDWARE_ENGINEER', 'DEVOPS_CLOUD_ENGINEER', 'DATA_ENGINEER', 'OTHER');
+
+-- CreateEnum
+CREATE TYPE "FieldOfStudy" AS ENUM ('COMPUTER_SCIENCE', 'ELECTRONICS', 'MECHANICAL', 'OTHER');
+
+-- CreateEnum
+CREATE TYPE "ExperienceLevel" AS ENUM ('JUST_STARTING', 'COMFORTABLE_BASICS', 'BUILDING_PROJECTS');
+
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN "firstName" TEXT;
+ALTER TABLE "User" ADD COLUMN "lastName" TEXT;
+ALTER TABLE "User" ADD COLUMN "phoneCountryCode" TEXT;
+ALTER TABLE "User" ADD COLUMN "phoneNumber" TEXT;
+ALTER TABLE "User" ADD COLUMN "memberType" "MemberType";
+ALTER TABLE "User" ADD COLUMN "fieldOfStudy" "FieldOfStudy";
+ALTER TABLE "User" ADD COLUMN "experienceLevel" "ExperienceLevel";
+ALTER TABLE "User" ADD COLUMN "interestAreas" TEXT[] DEFAULT ARRAY[]::TEXT[];
+ALTER TABLE "User" ADD COLUMN "location" TEXT;
+ALTER TABLE "User" ADD COLUMN "onboardingCompletedAt" TIMESTAMP(3);

@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { canAuthor, syncUser } from "@/lib/auth/sync-user";
+import { canAuthor } from "@/lib/auth/capabilities";
+import { getActivePortal } from "@/lib/auth/portal";
+import { syncUser } from "@/lib/auth/sync-user";
 
 export async function getAuthUser() {
   const supabase = await createClient();
@@ -18,10 +20,34 @@ export async function requireAppUser() {
   return syncUser(user);
 }
 
+export async function getAppUser() {
+  try {
+    const user = await getAuthUser();
+    if (!user) {
+      return null;
+    }
+    return await syncUser(user);
+  } catch {
+    return null;
+  }
+}
+
 export async function requireAuthor() {
   const appUser = await requireAppUser();
-  if (!canAuthor(appUser.role)) {
+  if (!canAuthor(appUser)) {
     return { appUser, allowed: false as const };
   }
   return { appUser, allowed: true as const };
+}
+
+export async function getSessionContext() {
+  const appUser = await getAppUser();
+  if (!appUser) {
+    return { appUser: null, activePortal: "learner" as const };
+  }
+
+  return {
+    appUser,
+    activePortal: await getActivePortal(appUser),
+  };
 }

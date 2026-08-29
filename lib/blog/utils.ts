@@ -18,3 +18,18 @@ export function formatDate(date: Date) {
     year: "numeric",
   }).format(date);
 }
+
+export function formatDateTime(date: Date) {
+  return new Intl.DateTimeFormat("en", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(date);
+}
+
+export function toDatetimeLocalValue(date: Date) {
+  const pad = (value: number) => String(value).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}

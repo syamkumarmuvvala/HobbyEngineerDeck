@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { applyPortalCookie, portalForPath } from "@/lib/auth/portal-cookie";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
@@ -37,6 +38,11 @@ export async function updateSession(request: NextRequest) {
     redirectUrl.pathname = "/login";
     redirectUrl.searchParams.set("next", request.nextUrl.pathname);
     return NextResponse.redirect(redirectUrl);
+  }
+
+  const portal = portalForPath(request.nextUrl.pathname);
+  if (portal) {
+    applyPortalCookie(supabaseResponse.cookies, portal);
   }
 
   return supabaseResponse;

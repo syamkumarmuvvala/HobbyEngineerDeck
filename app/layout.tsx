@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Geist, Geist_Mono, Source_Serif_4 } from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "@/components/ui/sonner";
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteHeader } from "@/components/site/site-header";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -35,11 +34,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${sourceSerif.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="flex min-h-full flex-col">
-        <SiteHeader />
-        <div className="flex flex-1 flex-col">{children}</div>
-        <SiteFooter />
+      <body className="flex min-h-full flex-col" suppressHydrationWarning>
+        <NextTopLoader color="#fcbf30" height={3} showSpinner={false} />
+        {children}
         <Toaster />
       </body>
     </html>

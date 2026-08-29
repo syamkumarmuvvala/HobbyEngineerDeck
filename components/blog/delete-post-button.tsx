@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { SubmitButton } from "@/components/ui/submit-button";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { deletePost } from "@/app/dashboard/blog/actions";
+import { deletePost } from "@/app/(mentor)/dashboard/blog/actions";
 
 export function DeletePostButton({ id, title }: { id: string; title: string }) {
   const [open, setOpen] = useState(false);
@@ -35,9 +36,9 @@ export function DeletePostButton({ id, title }: { id: string; title: string }) {
             </Button>
             <form action={deletePost}>
               <input type="hidden" name="id" value={id} />
-              <Button type="submit" variant="destructive">
+              <SubmitButton variant="destructive" pendingLabel="Deleting…">
                 Delete
-              </Button>
+              </SubmitButton>
             </form>
           </DialogFooter>
         </DialogContent>
