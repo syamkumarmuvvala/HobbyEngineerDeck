@@ -11,7 +11,7 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { buttonVariants } from "@/components/ui/button";
 import { setPortal } from "@/lib/auth/portal-actions";
-import type { Portal } from "@/lib/auth/portal";
+import type { Portal } from "@/lib/auth/portal-cookie";
 import { cn } from "@/lib/utils";
 
 export function PortalSwitcher({

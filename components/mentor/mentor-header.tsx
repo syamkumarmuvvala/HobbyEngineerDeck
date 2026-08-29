@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { PortalSwitcher } from "@/components/site/portal-switcher";
 import { SignOutButton } from "@/components/site/sign-out-button";
-import type { Portal } from "@/lib/auth/portal";
+import type { Portal } from "@/lib/auth/portal-cookie";
 
 export function MentorHeader({ activePortal }: { activePortal: Portal }) {
   return (

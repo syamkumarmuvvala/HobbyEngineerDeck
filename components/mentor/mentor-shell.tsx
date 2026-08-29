@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { MentorHeader } from "@/components/mentor/mentor-header";
 import { MentorSidebar } from "@/components/mentor/mentor-sidebar";
-import type { Portal } from "@/lib/auth/portal";
+import type { Portal } from "@/lib/auth/portal-cookie";
 
 export function MentorShell({
   activePortal,

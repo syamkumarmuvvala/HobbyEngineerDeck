@@ -66,7 +66,7 @@ export async function SiteHeader() {
                 href="/signup"
                 className={cn(buttonVariants(), "pill-cta hidden h-9 px-4 sm:inline-flex")}
               >
-                Sign up
+                Get Started
               </Link>
             </>
           )}

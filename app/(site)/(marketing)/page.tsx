@@ -27,7 +27,7 @@ import {
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const topics = ["Embedded", "RF", "Mechanical", "Firmware", "Shop notes"];
+const topics = ["Blog", "Courses", "Forum", "Social", "Marketplace", "Mentors","AI Tools"];
 
 const modules = [
   {
@@ -202,19 +202,19 @@ export default function MarketingPage() {
       <section className="mx-auto grid w-full max-w-6xl items-start gap-10 overflow-visible px-4 pt-8 pb-16 sm:px-6 lg:grid-cols-2 lg:items-stretch lg:gap-12 lg:pt-10 lg:pb-20">
         <div>
           <p className="text-foreground/70 mb-3 text-sm font-medium">
-            For Every Software Engineer Out there
+            For Every Software Dev Out there
           </p>
           <h1 className="font-heading text-4xl leading-tight tracking-tight text-pretty sm:text-5xl lg:text-6xl">
             Learn, Engineer, and Share.
           </h1>
           <p className="text-muted-foreground mt-5 max-w-lg text-lg leading-relaxed">
-            HobbyEngineerDeck is a place for software engineers to document what they&apos;re actually
-            building — write-ups on how things really work under the hood, and lessons pulled
+            HobbyEngineerDeck is a place for software devs to learn,share and market what they&apos;re actually
+            building as a hobby — write-ups on how things really work under the hood, and lessons pulled
             straight from hands-on practice.
             <br />
             <br />
             It started as one practitioner&apos;s notes from working in Pega CDH and AI decisioning,
-            and is growing into a space where any engineer can do the same.
+            and is growing into a space where any software dev can do the same.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <Link href="/signup" className={cn(buttonVariants(), "pill-cta")}>
@@ -240,7 +240,8 @@ export default function MarketingPage() {
       <section className="border-border border-y bg-white py-6">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-4 px-4 sm:px-6">
           <p className="text-muted-foreground text-center text-sm">
-            Built for people who still have solder on their hands.
+            Built for people whose hobby work is buried from the world.
+            Most side projects never leave your local machine. HobbyEngineerDeck is where they finally do.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm font-semibold tracking-wide text-zinc-500 uppercase">
             {topics.map((topic) => (

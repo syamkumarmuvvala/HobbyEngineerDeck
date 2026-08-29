@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { SignupStepTwoForm } from "@/components/auth/signup-step-two-form";
 import { needsOnboarding } from "@/lib/auth/onboarding";
-import { destinationForUser } from "@/lib/auth/portal";
+import { destinationForUser } from "@/lib/auth/portal-routing";
 import { requireAppUser } from "@/lib/auth/session";
 
 type ProfilePageProps = {

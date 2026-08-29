@@ -5,7 +5,7 @@ import type {
   User,
 } from "@/lib/generated/prisma/client";
 import type { UserCapabilities } from "@/lib/auth/capabilities";
-import { destinationForUser } from "@/lib/auth/portal";
+import { destinationForUser } from "@/lib/auth/portal-routing";
 
 export type OnboardingUser = Pick<User, "onboardingCompletedAt">;
 

@@ -9,7 +9,7 @@ import {
   INTEREST_AREA_SLUGS,
   MEMBER_TYPES,
 } from "@/lib/auth/onboarding";
-import { destinationForUser } from "@/lib/auth/portal";
+import { destinationForUser } from "@/lib/auth/portal-routing";
 import { requireAppUser } from "@/lib/auth/session";
 import { prisma } from "@/lib/prisma/client";
 
